@@ -160,7 +160,16 @@ macro_rules! unit {
                 }
             }
 
-            impl super::Conversion<V> for super::$unit {})+
+            impl super::Conversion<V> for super::$unit {
+                #[cfg(test)]
+                #[inline(always)]
+                fn is_valid() -> bool {
+                    use $crate::num::ToPrimitive;
+
+                    Some(unit!(@coefficient $($conversion),+)) == <Self as $crate::Conversion<V>>::conversion()
+                        .to_f64()
+                }
+            })+
         }
 
         storage_types! {
@@ -187,7 +196,26 @@ macro_rules! unit {
                 }
             }
 
-            impl super::Conversion<V> for super::$unit {})+
+            impl super::Conversion<V> for super::$unit {
+                #[cfg(test)]
+                #[inline(always)]
+                fn is_valid() -> bool {
+                    use $crate::num::{FromPrimitive, ToPrimitive};
+
+                    if let Some(conversion) = Self::T::from_f64(unit!(@coefficient $($conversion),+)) {
+                        // Factional conversion factors will end up being truncated.
+                        if conversion.numer() >= conversion.denom() {
+                            if let Some(numer) = conversion.numer().to_f64() {
+                                if let Some(denom) = conversion.denom().to_f64() {
+                                    return $conversion == numer / denom
+                                }
+                            }
+                        }
+                    }
+
+                    false
+                }
+            })+
         }
 
         storage_types! {
@@ -219,7 +247,25 @@ macro_rules! unit {
                 }
             }
 
-            impl super::Conversion<V> for super::$unit {})+
+            impl super::Conversion<V> for super::$unit {
+                #[cfg(test)]
+                #[inline(always)]
+                fn is_valid() -> bool {
+                    use $crate::num::{FromPrimitive, ToPrimitive};
+
+                    if let Some(conversion) = $crate::num::rational::Ratio::<$crate::num::BigInt>::from_f64(unit!(@coefficient $($conversion),+)) {
+                        if conversion.numer() >= conversion.denom() {
+                            if let Some(numer) = conversion.numer().to_f64() {
+                                if let Some(denom) = conversion.denom().to_f64() {
+                                    return $conversion == numer / denom
+                                }
+                            }
+                        }
+                    }
+
+                    false
+                }
+            })+
         }
 
         storage_types! {
@@ -245,7 +291,26 @@ macro_rules! unit {
                 }
             }
 
-            impl super::Conversion<V> for super::$unit {})+
+            impl super::Conversion<V> for super::$unit {
+                #[cfg(test)]
+                #[inline(always)]
+                fn is_valid() -> bool {
+                    use $crate::num::{FromPrimitive, ToPrimitive};
+
+                    if let Some(conversion) = Self::T::from_f64(unit!(@coefficient $($conversion),+)) {
+                        // Factional conversion factors will end up being truncated.
+                        if conversion.numer() >= conversion.denom() {
+                            if let Some(numer) = conversion.numer().to_f64() {
+                                if let Some(denom) = conversion.denom().to_f64() {
+                                    return $conversion == numer / denom
+                                }
+                            }
+                        }
+                    }
+
+                    false
+                }
+            })+
         }
     };
     (@unit $(#[$unit_attr:meta])+ @$unit:ident $plural:expr) => {

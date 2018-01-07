@@ -136,6 +136,8 @@ macro_rules! quantity {
         where
             V: $crate::Conversion<V>,
         {
+            #[cfg(test)]
+            fn is_valid() -> bool;
         }
 
         unit! {
