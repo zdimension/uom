@@ -9,6 +9,17 @@
 ### Removed
 ### Fixed
 -->
+## [v0.34.0] — 2022-10-26
+This release .
+
+Many thanks to []() for pull requests included and issues resolved in this release.
+
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
 ## [v0.33.0] — 2022-06-28
 This release adds one new quantity, `Absement`. Two new underlying storage types, `Complex32` and
 `Complex64`. Eight new exponential and logarithmic functions on `Ratio` and changes to use
@@ -626,7 +637,8 @@ for the creation of custom systems or the use of the pre-built SI. Basic mathema
 are implemented and a minimal set of quantities (length, mass, time...) and units (meter, kilometer,
 foot, mile, ...) are included.
 
-[Unreleased]: https://github.com/iliekturtles/uom/compare/v0.33.0...master
+[Unreleased]: https://github.com/iliekturtles/uom/compare/v0.34.0...master
+[v0.34.0]: https://github.com/iliekturtles/uom/compare/v0.33.0...v0.34.0
 [v0.33.0]: https://github.com/iliekturtles/uom/compare/v0.32.0...v0.33.0
 [v0.32.0]: https://github.com/iliekturtles/uom/compare/v0.31.1...v0.32.0
 [v0.31.1]: https://github.com/iliekturtles/uom/compare/v0.31.0...v0.31.1
